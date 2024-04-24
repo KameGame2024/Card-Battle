@@ -1,10 +1,12 @@
-import React from 'react'
-import CardPool from '../../CardPool/CardPool';
+import { CardPool } from '../../CardPool/CardPool';
+import styles from './arena.module.css'
+import { CombatArea } from '../../CombatArea/CombatArea';
 
-export default function Arena() {
+export function Arena() {
   return (
-    <div>
+    <div className={styles.arena}>
       <CardPool />
+      <CombatArea />
       <CardPool />
     </div>
   )

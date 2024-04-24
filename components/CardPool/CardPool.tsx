@@ -1,18 +1,12 @@
-import React from 'react'
-import Card from '../Card/Card';
+import styles from './cardPool.module.css'
+import { CardPoolSlot } from '../CardPoolSlot/CardPoolSlot';
 
-export default function CardPool() {
+export function CardPool() {
   return (
-    <div>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+    <div className={styles.cardPool}>
+      {[...Array(9)].map((_, index) => (
+        <CardPoolSlot key={index} />
+      ))}
     </div>
   )
 }
