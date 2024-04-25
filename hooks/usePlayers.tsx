@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { Player } from "../types/playersType";
 import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
-import { cardElement } from "../types/cardType";
 
 export function usePlayer() {
   const [player1, setPlayer1] = useState<Player>({
     name: "Player 1",
     healthPoints: 100,
     image: "",
-    cardsInDeck: [],
-    cardsInField: [{name: "Card 1", img: "", attack: 10, defense: 5, element: cardElement.FIRE},
-    {name: "Card 2", img: "", attack: 5, defense: 10, element: cardElement.WATER},
-    {name: "Card 3", img: "", attack: 15, defense: 5, element: cardElement.EARTH},
-    {name: "Card 4", img: "", attack: 5, defense: 15, element: cardElement.WIND}],
+    cardsInDeck: cardsPlayer1,
+    cardsInField: [],
     cardInCombat: []
   });
 
@@ -20,33 +16,34 @@ export function usePlayer() {
     name: "Player 2",
     healthPoints: 100,
     image: "",
-    cardsInDeck: [],
-    cardsInField: [{name: "Card 1", img: "", attack: 10, defense: 5, element: cardElement.FIRE},
-    {name: "Card 2", img: "", attack: 5, defense: 10, element: cardElement.WATER},
-    {name: "Card 3", img: "", attack: 15, defense: 5, element: cardElement.EARTH},
-    {name: "Card 4", img: "", attack: 5, defense: 15, element: cardElement.WIND}],
+    cardsInDeck: cardsPlayer2,
+    cardsInField: [],
     cardInCombat: []
   });
 
   const playerTookDamage = (player: number, damage: number) => {
     if (player === 1) {
       setPlayer1({ ...player1, healthPoints: player1.healthPoints - damage });
+
+      // Timer para el daño antes de esto
+      setPlayer1({ ...player1, cardInCombat: [] })
+      setPlayer2({ ...player2, cardInCombat: [] })
     } else {
       setPlayer2({ ...player2, healthPoints: player2.healthPoints - damage });
+      // Timer para el daño antes de esto
+      setPlayer1({ ...player1, cardInCombat: [] })
+      setPlayer2({ ...player2, cardInCombat: [] })
     }
   }
 
-  const playerDrawCard = (player: number) => {
-    if (player === 1) {
-      const card = player1.cardsInDeck.pop();
-      if (card) {
-        player1.cardsInField.push(card);
-      }
-    } else {
-      const card = player2.cardsInDeck.pop();
-      if (card) {
-        player2.cardsInField.push(card);
-      }
+  const playersDrawCard = () => {
+    const card1 = player1.cardsInDeck.pop();
+    const card2 = player2.cardsInDeck.pop();
+    if (card1 && card2) {
+      player1.cardsInField.push(card1);
+      player2.cardsInField.push(card2);
+      setPlayer1({ ...player1, cardsInField: player1.cardsInField });
+      setPlayer2({ ...player2, cardsInField: player2.cardsInField });
     }
   }
 
@@ -56,12 +53,14 @@ export function usePlayer() {
       if (card) {
         player1.cardsInField.splice(cardIndex, 1);
         player1.cardInCombat.push(card);
+        setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardInCombat: player1.cardInCombat });
       }
     } else {
       const card = player2.cardsInField[cardIndex];
       if (card) {
         player2.cardsInField.splice(cardIndex, 1);
         player2.cardInCombat.push(card);
+        setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardInCombat: player2.cardInCombat });
       }
     }
   }
@@ -93,7 +92,7 @@ export function usePlayer() {
 
   const playersActions = {
     playerTookDamage,
-    playerDrawCard,
+    playersDrawCard,
     selectCardToCombat,
     resetPlayers
   }

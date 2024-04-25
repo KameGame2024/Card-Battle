@@ -2,18 +2,27 @@ import { GiBroadsword } from "react-icons/gi";
 import { GiBorderedShield } from "react-icons/gi";
 
 import { Card } from '../Card/Card';
+import { CardPoolSlot } from "../CardPoolSlot/CardPoolSlot";
 
 import styles from './cardInCombat.module.css';
+import { Card as CardType } from "../../types/cardType";
 
-// TODO: Mirar si es posible hacer que al posar el mouse encima se vea el ataque y defensa de la carta ya que tal vez no se vea mucho en la carta
-// O en vez de esto al hacer un hover se agrande cada carta tanto en la arena como en el pool
 
-export function CardInCombat() {
+type CardInCombatProps = {
+  attackTurn: boolean;
+  cardToCombat?: CardType;
+}
+
+export function CardInCombat({ attackTurn, cardToCombat }: CardInCombatProps) {
   return (
     <div className={styles.cardInCombat}>
-      {false && <GiBroadsword className={styles.icon} />}
-      {true && <GiBorderedShield className={styles.icon} />}
-      <Card />
+      {attackTurn && <GiBroadsword className={styles.icon} />}
+      {!attackTurn && <GiBorderedShield className={styles.icon} />}
+      {cardToCombat ? (
+          <Card />
+        ) : (
+          <CardPoolSlot />
+        )}
     </div>
   )
 }

@@ -52,10 +52,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const startGame = () => {
     setInGameState(true);
     setRoundState(1);
-    setPlayerTurnState(1);
+    setPlayerTurnState(0);
 
     for (let i = 0; i < 5; i++) {
-      playersDrawCard();
+      setTimeout(() => {
+        playersDrawCard();
+      }, 500 * (i+1));
     }
   };
 
