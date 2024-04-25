@@ -1,12 +1,13 @@
-import { Arena } from '../components/UI/Arena/Arena';
-import { PlayersContainer } from '../components/UI/PlayersContainer/PlayersContainer';
+import { GameProvider } from '../providers/GameProvider';
+import { GameManager } from '../components';
 
 function App() {
 
   return (
     <>
-      <Arena />
-      <PlayersContainer />
+    <GameProvider>
+      <GameManager />
+    </GameProvider>
     </>
   )
 }

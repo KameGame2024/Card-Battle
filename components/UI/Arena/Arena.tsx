@@ -1,13 +1,27 @@
 import { CardPool } from '../../CardPool/CardPool';
-import styles from './arena.module.css'
 import { CombatArea } from '../../CombatArea/CombatArea';
+import { Card } from '../../../types/cardType';
+import { GameContext } from '../../../providers/GameProvider';
+import { GameContextType } from '../../../types/GameContextType';
+import { useContext } from 'react';
+
+import styles from './arena.module.css'
 
 export function Arena() {
+
+  const { 
+    player1,
+    player2,
+  } = useContext<GameContextType>(GameContext);
+
+  const player1Cards:Card[] = player1.cardsInField;
+  const player2Cards:Card[] = player2.cardsInField;
+
   return (
     <div className={styles.arena}>
-      <CardPool />
+      <CardPool playerCards={player1Cards} />
       <CombatArea />
-      <CardPool />
+      <CardPool playerCards={player2Cards}/>
     </div>
   )
 }

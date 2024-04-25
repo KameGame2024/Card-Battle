@@ -5,5 +5,6 @@ export type Player = {
   healthPoints: number,
   image: string,
   cardsInDeck: Card[],
-  cardsInField: Card[]
+  cardsInField: Card[],
+  cardInCombat: Card[]
 }

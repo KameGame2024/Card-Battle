@@ -1,0 +1,31 @@
+.info{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+}
+
+.quitBtn {
+  width: 120px;
+  height: 40px;
+  background-color: var(--white-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.quitBtn:hover {
+  transform: scale(1.1);
+}
+
+.turnText {
+  font-size: 3.2rem;
+  font-weight: bold;
+  color: var(--white-color);
+}
