@@ -2,7 +2,9 @@ export const cardElement = {
   FIRE: 'FIRE',
   WATER: 'WATER',
   EARTH: 'EARTH',
-  WIND: 'WIND'
+  WIND: 'WIND',
+  DARK: 'DARK',
+  LIGHT: 'LIGHT'
 }
 
 export type Card = {
