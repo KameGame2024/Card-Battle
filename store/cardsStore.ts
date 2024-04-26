@@ -13,7 +13,7 @@ export const cardsPlayer2: Card[] = [
   {name: "A Man with Wdjat", img: "https://images.ygoprodeck.com/images/cards/51351302.jpg", attack: 1600, defense: 1600, element: cardElement.DARK},
   {name: "A-Assault Core", img: "https://images.ygoprodeck.com/images/cards/30012506.jpg", attack: 1900, defense: 200, element: cardElement.LIGHT},
   {name: "A-to-Z-Dragon Buster Cannon", img: "https://images.ygoprodeck.com/images/cards/65172015.jpg", attack: 4000, defense: 4000, element: cardElement.LIGHT},
-  {name: "ABC-Dragon Buster", img: "", attack: 3000, defense: 2800, element: cardElement.LIGHT},
+  {name: "ABC-Dragon Buster", img: "https://images.ygoprodeck.com/images/cards/1561110.jpg", attack: 3000, defense: 2800, element: cardElement.LIGHT},
   {name: "Abaki", img: "https://images.ygoprodeck.com/images/cards/12694768.jpg", attack: 1700, defense: 1100, element: cardElement.FIRE},
   {name: "Abare Ushioni", img: "https://images.ygoprodeck.com/images/cards/89718302.jpg", attack: 1200, defense: 1200, element: cardElement.EARTH},
   {name: "Abominable Unchained Soul", img: "https://images.ygoprodeck.com/images/cards/1966438.jpg", attack: 3000, defense: 1500, element: cardElement.DARK},

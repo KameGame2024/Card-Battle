@@ -24,7 +24,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [player1, setPlayer1] = useState<Player>({
     name: "Player 1",
-    healthPoints: 100,
+    healthPoints: 20000,
     image: "",
     cardsInDeck: cardsPlayer1,
     cardsInField: [],
@@ -33,7 +33,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [player2, setPlayer2] = useState<Player>({
     name: "Player 2",
-    healthPoints: 100,
+    healthPoints: 20000,
     image: "",
     cardsInDeck: cardsPlayer2,
     cardsInField: [],
@@ -80,33 +80,75 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     resetPlayers();
   };
 
-  const inCombat = () => {
+  const startCombat = () => {
+
     if (playerTurnState === 0){
-      if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
-        const damage = Math.max(player1.cardInCombat[0].attack - player2.cardInCombat[0].defense, 0);
-        playerTookDamage(2, damage);
-        player1.cardInCombat = [];
-        player2.cardInCombat = [];
-        setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
-        setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});
-      }
+
+      // El enemigo (jugador 2) selecciona su carta, si es en turno de jugador 1 la de mayor defensa
+      // buscar el indice de la carta con mayor defensa
+      const maxDefense = Math.max(...player2.cardsInField.map(card => card.defense));
+      const index = player2.cardsInField.findIndex(card => card.defense === maxDefense);
+      selectCardToCombatPromise(2, index).then(() => {
+        if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
+          const damage = Math.max(player1.cardInCombat[0].attack - player2.cardInCombat[0].defense, 0);
+          playerTookDamagePromise(2, damage).then(()=> resetCombatZonePromise()).then(() => nextRound());
+        }
+      });
     } else {
-      if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
-        const damage = Math.max(player2.cardInCombat[0].attack - player1.cardInCombat[0].defense, 0);
-        playerTookDamage(1, damage);
-        player1.cardInCombat = [];
-        player2.cardInCombat = [];
-        setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
-        setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});
-      }
+      // El enemigo (jugador 2) selecciona su carta, si es en su turno la de mayor ataque
+      // buscar el indice de la carta con mayor ataque
+      const maxAttack = Math.max(...player2.cardsInField.map(card => card.attack));
+      const index = player2.cardsInField.findIndex(card => card.attack === maxAttack);
+      selectCardToCombatPromise(2, index).then(() => {
+        if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
+          const damage = Math.max(player2.cardInCombat[0].attack - player1.cardInCombat[0].defense, 0);
+          playerTookDamagePromise(1, damage).then(()=> resetCombatZonePromise()).then(() => nextRound());
+        }
+      });
     }
   };
 
+  // Crear una promesa para ejecutar la seleccion de carta del enemigo
+  const selectCardToCombatPromise = (player: number, cardIndex: number) => {
+    return new Promise<void>((resolve) => {
+      selectCardToCombat(player, cardIndex);
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+  }
+
+  // crear una promesa para que se ejecute el reset de la zona de combate despues de que el jugador haya tomado daño
+  const playerTookDamagePromise = (player: number, damage: number) => {
+    return new Promise<void>((resolve) => {
+
+      playerTookDamage(player, damage);
+  
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+  }
+
+  // Crear una promesa para que se ejecute el reset de la zona de combate despues de que el jugador haya tomado daño
+  const resetCombatZonePromise = () => {
+    return new Promise<void>((resolve) => {
+      resetCombatZone();
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+  }
+
   const playerTookDamage = (player: number, damage: number) => {
     if (player === 1) {
-      setPlayer1({ ...player1, healthPoints: player1.healthPoints - damage });
+      const newHealthPoints = player1.healthPoints - damage;
+      player1.healthPoints = newHealthPoints;
+      setPlayer1({ ...player1});
     } else {
-      setPlayer2({ ...player2, healthPoints: player2.healthPoints - damage });
+      const newHealthPoints = player2.healthPoints - damage;
+      player2.healthPoints = newHealthPoints;
+      setPlayer2({ ...player2 });
     }
   }
 
@@ -116,16 +158,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     if (card1 && card2) {
       if (player1.cardsInField.length < 9){
         player1.cardsInField.push(card1);
-        setPlayer1({ ...player1, cardsInField: player1.cardsInField});
+        setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardsInDeck: player1.cardsInDeck});
       }
       if (player2.cardsInField.length < 9){
         player2.cardsInField.push(card2);
-        setPlayer2({ ...player2, cardsInField: player2.cardsInField});
+        setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardsInDeck: player2.cardsInDeck});
       }
     }
   }
 
-  const selectCardToCombat = (player: number, cardIndex: number) => {
+  const selectCardToCombat = (player: number, cardIndex: number = 0) => {
     if (player === 1) {
       const card = player1.cardsInField[cardIndex];
       if (card && player1.cardInCombat.length === 0) {
@@ -140,19 +182,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardInCombat: player1.cardInCombat});
       }
     } else {
-      // const card = player2.cardsInField[cardIndex];
-      // if (card && player2.cardInCombat.length === 0) {
-      //   player2.cardsInField.splice(cardIndex, 1);
-      //   player2.cardInCombat.push(card);
-      //   setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardInCombat: player2.cardInCombat});
-      // }
+      const card = player2.cardsInField[cardIndex];
+      if (card && player2.cardInCombat.length === 0) {
+        player2.cardsInField.splice(cardIndex, 1);
+        player2.cardInCombat.push(card);
+        setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardInCombat: player2.cardInCombat});
+      }
     }
   }
 
   const resetPlayers = () => {
     setPlayer1({
       name: "Player 1",
-      healthPoints: 100,
+      healthPoints: 20000,
       image: "",
       cardsInDeck: cardsPlayer1,
       cardsInField: [],
@@ -161,12 +203,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     setPlayer2({
       name: "Player 2",
-      healthPoints: 100,
+      healthPoints: 20000,
       image: "",
       cardsInDeck: cardsPlayer2,
       cardsInField: [],
       cardInCombat: []
     });
+  }
+
+  const resetCombatZone = () => {
+    player1.cardInCombat = [];
+    player2.cardInCombat = [];
+    setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
+    setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});    
   }
 
   return (
@@ -183,7 +232,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       player1,
       player2,
       selectCardToCombat,
-      inCombat
+      startCombat
     }}>
       {children}
     </GameContext.Provider>
