@@ -6,7 +6,7 @@
   background-color: var(--background-color);
 }
 
-.quitBtn {
+.btn {
   width: 120px;
   height: 40px;
   background-color: var(--white-color);
@@ -20,8 +20,14 @@
   transition: all 0.3s ease;
 }
 
-.quitBtn:hover {
+.btn:hover {
   transform: scale(1.1);
+}
+
+.btn:disabled {
+  background-color: var(--background-color-light);
+  color: var(--white-color);
+  cursor: not-allowed;
 }
 
 .turnText {

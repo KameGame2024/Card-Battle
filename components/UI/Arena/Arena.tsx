@@ -19,9 +19,9 @@ export function Arena() {
 
   return (
     <div className={styles.arena}>
-      <CardPool playerCards={player1Cards} />
+      <CardPool playerCards={player1Cards} playerPool={1} />
       <CombatArea />
-      <CardPool playerCards={player2Cards}/>
+      <CardPool playerCards={player2Cards} playerPool={2}/>
     </div>
   )
 }
