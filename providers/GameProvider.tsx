@@ -87,6 +87,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         playerTookDamage(2, damage);
         player1.cardInCombat = [];
         player2.cardInCombat = [];
+        setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
+        setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});
       }
     } else {
       if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
@@ -94,6 +96,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         playerTookDamage(1, damage);
         player1.cardInCombat = [];
         player2.cardInCombat = [];
+        setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
+        setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});
       }
     }
   };
@@ -132,7 +136,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         // Change the card in combat for a new one
         player1.cardsInField.splice(cardIndex, 1);
         player1.cardsInField.push(player1.cardInCombat[0]);
-        player1.cardInCombat.push(card);
+        player1.cardInCombat[0] = card;
         setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardInCombat: player1.cardInCombat});
       }
     } else {

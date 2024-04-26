@@ -19,7 +19,7 @@ export function CardInCombat({ attackTurn, cardToCombat }: CardInCombatProps) {
       {attackTurn && <GiBroadsword className={styles.icon} />}
       {!attackTurn && <GiBorderedShield className={styles.icon} />}
       {cardToCombat ? (
-          <Card />
+          <Card card={cardToCombat}/>
         ) : (
           <CardPoolSlot />
         )}

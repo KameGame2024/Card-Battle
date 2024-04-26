@@ -19,7 +19,7 @@ export function CardPool({ playerCards, playerPool }: CardPoolProps) {
     <div className={styles.cardPool}>
       {[...Array(9)].map((_, index) => (
         playerCards[index] ? (
-          <Card key={index} selectCard={() => selectCardToCombat(playerPool, index)} />
+          <Card key={index} selectCard={() => selectCardToCombat(playerPool, index)} card={playerCards[index]} />
         ) : (
           <CardPoolSlot key={index} />
         )
