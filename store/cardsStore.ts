@@ -9,12 +9,9 @@ export const cardsPlayer2: Card[] = [
   {name: "3-Hump Lacooda", img: "https://images.ygoprodeck.com/images/cards/86988864.jpg", attack: 500, defense: 1500, element: cardElement.EARTH},
   {name: "30,000-Year White Turtle", img: "https://images.ygoprodeck.com/images/cards/11714098.jpg", attack: 1250, defense: 2100, element: cardElement.WATER},
   {name: "4-Starred Ladybug of Doom", img: "https://images.ygoprodeck.com/images/cards/83994646.jpg", attack: 800, defense: 1200, element: cardElement.WIND},
-  {name: "8-Claws Scorpion", img: "https://images.ygoprodeck.com/images/cards/14261867.jpg", attack: 
-  300, defense: 200, element: cardElement.DARK},
-  {name: "A Man with Wdjat", img: "https://images.ygoprodeck.com/images/cards/51351302.jpg", attack: 
-  1600, defense: 1600, element: cardElement.DARK},
-  {name: "A-Assault Core", img: "https://images.ygoprodeck.com/images/cards/30012506.jpg", attack: 
-  1900, defense: 200, element: cardElement.LIGHT},
+  {name: "8-Claws Scorpion", img: "https://images.ygoprodeck.com/images/cards/14261867.jpg", attack: 300, defense: 200, element: cardElement.DARK},
+  {name: "A Man with Wdjat", img: "https://images.ygoprodeck.com/images/cards/51351302.jpg", attack: 1600, defense: 1600, element: cardElement.DARK},
+  {name: "A-Assault Core", img: "https://images.ygoprodeck.com/images/cards/30012506.jpg", attack: 1900, defense: 200, element: cardElement.LIGHT},
   {name: "A-to-Z-Dragon Buster Cannon", img: "https://images.ygoprodeck.com/images/cards/65172015.jpg", attack: 4000, defense: 4000, element: cardElement.LIGHT},
   {name: "ABC-Dragon Buster", img: "", attack: 3000, defense: 2800, element: cardElement.LIGHT},
   {name: "Abaki", img: "https://images.ygoprodeck.com/images/cards/12694768.jpg", attack: 1700, defense: 1100, element: cardElement.FIRE},
