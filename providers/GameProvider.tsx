@@ -195,20 +195,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (card && player1.cardInCombat.length === 0) {
         player1.cardsInField.splice(cardIndex, 1);
         player1.cardInCombat.push(card);
-        setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardInCombat: player1.cardInCombat});
+        setPlayer1({ ...player1 });
       } else {
         // Change the card in combat for a new one
         player1.cardsInField.splice(cardIndex, 1);
         player1.cardsInField.push(player1.cardInCombat[0]);
         player1.cardInCombat[0] = card;
-        setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardInCombat: player1.cardInCombat});
+        setPlayer1({ ...player1 });
       }
     } else {
       const card = player2.cardsInField[cardIndex];
       if (card && player2.cardInCombat.length === 0) {
         player2.cardsInField.splice(cardIndex, 1);
         player2.cardInCombat.push(card);
-        setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardInCombat: player2.cardInCombat});
+        setPlayer2({ ...player2 });
       }
     }
   }
@@ -236,8 +236,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const resetCombatZone = () => {
     player1.cardInCombat = [];
     player2.cardInCombat = [];
-    setPlayer1({ ...player1, cardInCombat: player1.cardInCombat});
-    setPlayer2({ ...player2, cardInCombat: player2.cardInCombat});    
+    setPlayer1({ ...player1 });
+    setPlayer2({ ...player2 });    
   }
 
   return (
