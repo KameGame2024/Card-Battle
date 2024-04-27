@@ -4,7 +4,8 @@ export const cardElement = {
   EARTH: 'EARTH',
   WIND: 'WIND',
   DARK: 'DARK',
-  LIGHT: 'LIGHT'
+  LIGHT: 'LIGHT',
+  DIVINE: 'DIVINE'
 }
 
 export type Card = {
