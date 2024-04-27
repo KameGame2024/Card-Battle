@@ -35,13 +35,13 @@ export function InstructionsModal() {
           Cada turno se elegirá un elemento aleatorio, si la carta que ataca tiene el elemento que se eligió, su ataque se duplica. Usa esto a tu favor para ganar ventaja en el combate. Los elementos son:
         </p>
         <div className={styles.modalIcons}>
-          <img src="/atributes_icons/DARK.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/DIVINE.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/EARTH.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/FIRE.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/LIGHT.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/WATER.svg" alt="" className={styles.modalIcon} />
-          <img src="/atributes_icons/WIND.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/DARK.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/DIVINE.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/EARTH.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/FIRE.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/LIGHT.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/WATER.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/WIND.svg" alt="" className={styles.modalIcon} />
         </div>
 
         <button className={styles.modalBtn} onClick={startGame}>Estoy Listo</button>

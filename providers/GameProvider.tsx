@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 // import { usePlayer } from '../hooks/usePlayers';
 import React from 'react';
 import { GameContextType } from "../types/GameContextType";
-// import { cardElement } from "../types/cardType";
+import { cardElement } from "../types/cardType";
 import { Player } from "../types/playersType";
 import { gameStates } from "../types/GameState";
 import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
@@ -22,6 +22,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   //   player1,
   //   player2
   // } = usePlayer().playersState;
+
+  const elements: string[] = [
+    cardElement.FIRE,
+    cardElement.WATER,
+    cardElement.EARTH,
+    cardElement.WIND,
+    cardElement.LIGHT,
+    cardElement.DARK,
+    cardElement.DIVINE
+  ]
 
   const [player1, setPlayer1] = useState<Player>({
     name: "Player 1",
@@ -49,6 +59,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [winnerState, setWinnerState] = useState<number>(0);
 
+  const [currentElement, setCurrentElement] = useState<string>("");
+
   const startGame = () => {
     setInGameState(gameStates.IN_GAME);
     setRoundState(1);
@@ -59,6 +71,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         playersDrawCard();
       }, 250 * (i+1));
     }
+
+    selectNewElement();
   };
 
   const endGame = (winner: number) => {
@@ -98,6 +112,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
     setRoundState(roundState + 1);
     setPlayerTurnState(Math.abs(playerTurnState - 1));
+    selectNewElement();
     playersDrawCard();
   };
 
@@ -109,6 +124,16 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     resetPlayers();
   };
 
+  const selectNewElement = () => {
+    // Crear un array con los elementos del juego y seleccionar un elemento aleatorio
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        setCurrentElement(elements[Math.floor(Math.random() * elements.length)]);
+      }, 100 * i);
+    }
+    
+  }
+
   const startCombat = () => {
 
     if (playerTurnState === 0){
@@ -119,7 +144,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const index = player2.cardsInField.findIndex(card => card.defense === maxDefense);
       selectCardToCombatPromise(2, index).then(() => {
         if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
-          const damage = Math.max(player1.cardInCombat[0].attack - player2.cardInCombat[0].defense, 0);
+          let damage;
+          if (player1.cardInCombat[0].element === currentElement){
+            damage = Math.max((player1.cardInCombat[0].attack * 2)- player2.cardInCombat[0].defense, 0);
+          } else {
+            damage = Math.max(player1.cardInCombat[0].attack - player2.cardInCombat[0].defense, 0);
+          }
           playerTookDamagePromise(2, damage).then(()=> resetCombatZonePromise()).then(() => nextRound());
         }
       });
@@ -130,7 +160,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const index = player2.cardsInField.findIndex(card => card.attack === maxAttack);
       selectCardToCombatPromise(2, index).then(() => {
         if (player1.cardInCombat.length > 0 && player2.cardInCombat.length > 0){
-          const damage = Math.max(player2.cardInCombat[0].attack - player1.cardInCombat[0].defense, 0);
+          let damage;
+          if (player2.cardInCombat[0].element === currentElement){
+            damage = Math.max((player2.cardInCombat[0].attack * 2)- player1.cardInCombat[0].defense, 0);
+          } else {
+            damage = Math.max(player2.cardInCombat[0].attack - player1.cardInCombat[0].defense, 0);
+          }
           playerTookDamagePromise(1, damage).then(()=> resetCombatZonePromise()).then(() => nextRound());
         }
       });
@@ -254,6 +289,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       roundState,
       playerTurnState,
       winnerState,
+      currentElement,
       startGame,
       endGame,
       nextRound,

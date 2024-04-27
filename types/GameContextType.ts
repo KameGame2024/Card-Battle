@@ -5,6 +5,7 @@ export type GameContextType = {
   roundState: number,
   playerTurnState: number,
   winnerState: number,
+  currentElement: string,
   startGame: () => void,
   endGame: (winner: number) => void,
   nextRound: () => void,
