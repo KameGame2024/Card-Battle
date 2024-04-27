@@ -4,6 +4,7 @@ import React from 'react';
 import { GameContextType } from "../types/GameContextType";
 // import { cardElement } from "../types/cardType";
 import { Player } from "../types/playersType";
+import { gameStates } from "../types/GameState";
 import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
 
 export const GameContext = createContext<GameContextType>({} as GameContextType);
@@ -26,7 +27,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     name: "Player 1",
     healthPoints: 20000,
     image: "",
-    cardsInDeck: cardsPlayer1,
+    cardsInDeck: [...cardsPlayer1],
     cardsInField: [],
     cardInCombat: []
   });
@@ -35,13 +36,12 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     name: "Player 2",
     healthPoints: 20000,
     image: "",
-    cardsInDeck: cardsPlayer2,
+    cardsInDeck: [...cardsPlayer2],
     cardsInField: [],
     cardInCombat: []
   });
 
-
-  const [inGameState, setInGameState] = useState<boolean>(false);
+  const [inGameState, setInGameState] = useState<string>(gameStates.INSTRUCTIONS);
   const [roundState, setRoundState] = useState<number>(0);
 
   // Valores entre cero y uno, cero jugador 1, uno jugador 2 o enemigo
@@ -50,19 +50,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [winnerState, setWinnerState] = useState<number>(0);
 
   const startGame = () => {
-    setInGameState(true);
+    setInGameState(gameStates.IN_GAME);
     setRoundState(1);
     setPlayerTurnState(0);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 9; i++) {
       setTimeout(() => {
         playersDrawCard();
-      }, 500 * (i+1));
+      }, 250 * (i+1));
     }
   };
 
   const endGame = (winner: number) => {
-    setInGameState(false);
+    setInGameState(gameStates.END_GAME);
     setWinnerState(winner);
   };
 
@@ -73,7 +73,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const resetGame = () => {
-    setInGameState(false);
+    setInGameState(gameStates.INSTRUCTIONS);
     setRoundState(0);
     setPlayerTurnState(0);
     setWinnerState(0);
@@ -105,6 +105,28 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           playerTookDamagePromise(1, damage).then(()=> resetCombatZonePromise()).then(() => nextRound());
         }
       });
+    }
+
+    // Comprobar si hay un ganador
+    if (player1.healthPoints <= 0){
+      endGame(2);
+    } else if (player2.healthPoints <= 0){
+      endGame(1);
+    }
+
+    // Comprobar si no hay mas cartas en la mano, gana el jugador con mas vida
+    if (player1.cardsInField.length === 0){
+      if (player1.healthPoints > player2.healthPoints){
+        endGame(1);
+      } else {
+        endGame(2);
+      }
+    } else if (player2.cardsInField.length === 0){
+      if (player2.healthPoints > player1.healthPoints){
+        endGame(2);
+      } else {
+        endGame(1);
+      }
     }
   };
 
@@ -158,11 +180,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     if (card1 && card2) {
       if (player1.cardsInField.length < 9){
         player1.cardsInField.push(card1);
-        setPlayer1({ ...player1, cardsInField: player1.cardsInField, cardsInDeck: player1.cardsInDeck});
+        setPlayer1({ ...player1});
       }
       if (player2.cardsInField.length < 9){
         player2.cardsInField.push(card2);
-        setPlayer2({ ...player2, cardsInField: player2.cardsInField, cardsInDeck: player2.cardsInDeck});
+        setPlayer2({ ...player2});
       }
     }
   }
@@ -196,7 +218,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       name: "Player 1",
       healthPoints: 20000,
       image: "",
-      cardsInDeck: cardsPlayer1,
+      cardsInDeck: [...cardsPlayer1],
       cardsInField: [],
       cardInCombat: []
     });
@@ -205,7 +227,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       name: "Player 2",
       healthPoints: 20000,
       image: "",
-      cardsInDeck: cardsPlayer2,
+      cardsInDeck: [...cardsPlayer2],
       cardsInField: [],
       cardInCombat: []
     });
