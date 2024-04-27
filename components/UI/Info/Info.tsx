@@ -11,14 +11,15 @@ export function Info({ currentTurn }: InfoProps) {
 
   const { 
     player1,
-    startCombat
+    startCombat,
+    endGame
   } = useContext<GameContextType>(GameContext)
 
   const readyToCombat = player1.cardInCombat.length > 0;
 
   return (
     <div className={styles.info}>
-      <button className={styles.btn}>Terminar Partida</button>
+      <button className={styles.btn} onClick={() => endGame(2)}>Terminar Partida</button>
       <button className={styles.btn} disabled={!readyToCombat} onClick={startCombat}> Combatir </button>
       <h1 className={styles.turnText}>Turn {currentTurn}</h1>
     </div>

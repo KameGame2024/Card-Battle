@@ -1,7 +1,7 @@
 import { Player } from "./playersType"
 
 export type GameContextType = {
-  inGameState: boolean,
+  inGameState: string,
   roundState: number,
   playerTurnState: number,
   winnerState: number,
