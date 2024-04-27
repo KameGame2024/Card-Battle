@@ -67,6 +67,35 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const nextRound = () => {
+
+    // Comprobar si hay un ganador
+    if (player1.healthPoints <= 0){
+      endGame(2);
+      return;
+    } else if (player2.healthPoints <= 0){
+      endGame(1);
+      return;
+    }
+
+    // Comprobar si no hay mas cartas en la mano, gana el jugador con mas vida
+    if (player1.cardsInField.length === 0){
+      if (player1.healthPoints > player2.healthPoints){
+        endGame(1);
+        return;
+      } else {
+        endGame(2);
+        return;
+      }
+    } else if (player2.cardsInField.length === 0){
+      if (player2.healthPoints > player1.healthPoints){
+        endGame(2);
+        return;
+      } else {
+        endGame(1);
+        return;
+      }
+    }
+
     setRoundState(roundState + 1);
     setPlayerTurnState(Math.abs(playerTurnState - 1));
     playersDrawCard();
@@ -106,28 +135,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         }
       });
     }
-
-    // Comprobar si hay un ganador
-    if (player1.healthPoints <= 0){
-      endGame(2);
-    } else if (player2.healthPoints <= 0){
-      endGame(1);
-    }
-
-    // Comprobar si no hay mas cartas en la mano, gana el jugador con mas vida
-    if (player1.cardsInField.length === 0){
-      if (player1.healthPoints > player2.healthPoints){
-        endGame(1);
-      } else {
-        endGame(2);
-      }
-    } else if (player2.cardsInField.length === 0){
-      if (player2.healthPoints > player1.healthPoints){
-        endGame(2);
-      } else {
-        endGame(1);
-      }
-    }
   };
 
   // Crear una promesa para ejecutar la seleccion de carta del enemigo
@@ -140,7 +147,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
-  // crear una promesa para que se ejecute el reset de la zona de combate despues de que el jugador haya tomado daño
+  // crear una promesa para que se ejecute el tomar daño del jugador despues de que el enemigo haya seleccionado su carta
   const playerTookDamagePromise = (player: number, damage: number) => {
     return new Promise<void>((resolve) => {
 
