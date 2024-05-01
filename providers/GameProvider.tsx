@@ -222,6 +222,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   }
 
   const playersDrawCard = () => {
+    if (player1.cardsInDeck.length === 0 || player2.cardsInDeck.length === 0){
+      return;
+    }
     const card1 = player1.cardsInDeck.pop();
     const card2 = player2.cardsInDeck.pop();
     if (card1 && card2) {
