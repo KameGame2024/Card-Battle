@@ -14,3 +14,20 @@
   transform: scale(1.5);
   z-index: 1;
 }
+
+.inCombat {
+  animation: combatAnimation 1s infinite;
+}
+
+
+@keyframes combatAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -13,5 +13,6 @@ export type GameContextType = {
   player1: Player,
   player2: Player,
   selectCardToCombat: (player: number, cardIndex: number) => void
-  startCombat: () => void
+  startCombat: () => void,
+  inCombat: boolean
 }

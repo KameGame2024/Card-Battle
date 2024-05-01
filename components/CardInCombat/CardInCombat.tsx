@@ -6,6 +6,9 @@ import { CardPoolSlot } from "../CardPoolSlot/CardPoolSlot";
 
 import styles from './cardInCombat.module.css';
 import { Card as CardType } from "../../types/cardType";
+import { GameContext } from "../../providers/GameProvider";
+import { GameContextType } from "../../types/GameContextType";
+import { useContext } from "react";
 
 
 type CardInCombatProps = {
@@ -14,15 +17,24 @@ type CardInCombatProps = {
 }
 
 export function CardInCombat({ attackTurn, cardToCombat }: CardInCombatProps) {
+
+  const { inCombat } = useContext<GameContextType>(GameContext);
+
   return (
-    <div className={styles.cardInCombat}>
-      {attackTurn && <GiBroadsword className={styles.icon} />}
-      {!attackTurn && <GiBorderedShield className={styles.icon} />}
-      {cardToCombat ? (
-          <Card card={cardToCombat}/>
-        ) : (
-          <CardPoolSlot />
-        )}
+    <div className={styles.combatZone}>
+      <div className={styles.cardInCombat}>
+        {attackTurn && <GiBroadsword className={styles.icon} />}
+        {!attackTurn && <GiBorderedShield className={styles.icon} />}
+        {cardToCombat ? (
+            <Card card={cardToCombat} inCombat={inCombat}/>
+          ) : (
+            <CardPoolSlot />
+          )}
+      </div>
+      {cardToCombat &&
+      attackTurn ? (<h1 className={styles.combatText}>{cardToCombat?.attack}</h1>)
+      : (<h1 className={styles.combatText}>{cardToCombat?.defense}</h1>)}
+      
     </div>
   )
 }

@@ -61,6 +61,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [currentElement, setCurrentElement] = useState<string>("");
 
+  const [inCombat, setInCombat] = useState<boolean>(false);
+
   const startGame = () => {
     setInGameState(gameStates.IN_GAME);
     setRoundState(1);
@@ -186,6 +188,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const playerTookDamagePromise = (player: number, damage: number) => {
     return new Promise<void>((resolve) => {
 
+      setInCombat(true);
+
       playerTookDamage(player, damage);
   
       setTimeout(() => {
@@ -198,6 +202,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const resetCombatZonePromise = () => {
     return new Promise<void>((resolve) => {
       resetCombatZone();
+      setInCombat(false);
       setTimeout(() => {
         resolve();
       }, 2000);
@@ -297,7 +302,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       player1,
       player2,
       selectCardToCombat,
-      startCombat
+      startCombat,
+      inCombat
     }}>
       {children}
     </GameContext.Provider>
