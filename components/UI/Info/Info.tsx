@@ -13,7 +13,8 @@ export function Info({ currentTurn }: InfoProps) {
     player1,
     startCombat,
     endGame,
-    currentElement
+    currentElement,
+    inCombat
   } = useContext<GameContextType>(GameContext)
 
   const readyToCombat = player1.cardInCombat.length > 0;
@@ -21,7 +22,7 @@ export function Info({ currentTurn }: InfoProps) {
   return (
     <div className={styles.info}>
       <button className={styles.btn} onClick={() => endGame(2)}>Terminar Partida</button>
-      <button className={styles.btn} disabled={!readyToCombat} onClick={startCombat}> Combatir </button>
+      <button className={styles.btn} disabled={!readyToCombat || inCombat} onClick={startCombat}> Combatir </button>
       <h1 className={styles.turnText}>Turn {currentTurn}</h1>
       <img className={styles.elementIcon} src={`/attributes_icons/${currentElement}.svg`} alt="" />
     </div>
