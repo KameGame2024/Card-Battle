@@ -91,7 +91,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setInGameState(gameStates.IN_GAME);
     setRoundState(1);
     setPlayerTurnState(0);
-
+    shuffleDecks();
     playTrack();
 
     for (let i = 0; i < 9; i++) {
@@ -160,6 +160,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setWinnerState(0);
     resetPlayers();
   };
+
+  const shuffleDecks = () => {
+    // Shuffle the decks
+    for (let i = player1.cardsInDeck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [player1.cardsInDeck[i], player1.cardsInDeck[j]] = [player1.cardsInDeck[j], player1.cardsInDeck[i]];
+    }
+
+    for (let i = player2.cardsInDeck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [player2.cardsInDeck[i], player2.cardsInDeck[j]] = [player2.cardsInDeck[j], player2.cardsInDeck[i]];
+    }
+  }
 
   const selectNewElement = () => {
     playElementSound();
