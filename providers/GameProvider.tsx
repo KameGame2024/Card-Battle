@@ -11,6 +11,8 @@ import { useSound } from 'use-sound';
 import CardSFX from '/audio/card.mp3';
 import ElementSFX from '/audio/element.mp3';
 import CombatSFX from '/audio/combat.mp3';
+import WinSFX from '/audio/win.mp3';
+import LoseSFX from '/audio/lose.mp3';
 import Track from '/audio/soundtrack.mp3';
 import ButtonPress from '/audio/button.mp3';
 
@@ -81,6 +83,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [playCombatSound] = useSound(CombatSFX, { volume: 0.25 });
 
+  const [playWinSound] = useSound(WinSFX, { volume: 0.25 });
+
+  const [playLoseSound] = useSound(LoseSFX, { volume: 0.25 });
+
   const startGame = () => {
     setInGameState(gameStates.IN_GAME);
     setRoundState(1);
@@ -100,9 +106,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const endGame = (winner: number) => {
     //Stop the soundtrack
     stop();
-    
+
     setInGameState(gameStates.END_GAME);
     setWinnerState(winner);
+
+    if (winner === 1){
+      playWinSound();
+    } else {
+      playLoseSound();
+    }
   };
 
   const nextRound = () => {
