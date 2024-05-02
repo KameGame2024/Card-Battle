@@ -7,6 +7,13 @@ import { Player } from "../types/playersType";
 import { gameStates } from "../types/GameState";
 import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
 
+import { useSound } from 'use-sound';
+import CardSFX from '/audio/card.mp3';
+import ElementSFX from '/audio/element.mp3';
+import CombatSFX from '/audio/combat.mp3';
+import Track from '/audio/soundtrack.mp3';
+import ButtonPress from '/audio/button.mp3';
+
 export const GameContext = createContext<GameContextType>({} as GameContextType);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
@@ -63,10 +70,23 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [inCombat, setInCombat] = useState<boolean>(false);
 
+  // SFX y soundtrack para el juego
+  const [playCardSound] = useSound(CardSFX, { volume: 0.75 });
+
+  const [playElementSound] = useSound(ElementSFX, { volume: 0.1 });
+
+  const [playTrack, { stop }] = useSound(Track, { volume: 0.12, loop: true });
+
+  const [playButtonSound] = useSound(ButtonPress, { volume: 0.2 });
+
+  const [playCombatSound] = useSound(CombatSFX, { volume: 0.25 });
+
   const startGame = () => {
     setInGameState(gameStates.IN_GAME);
     setRoundState(1);
     setPlayerTurnState(0);
+
+    playTrack();
 
     for (let i = 0; i < 9; i++) {
       setTimeout(() => {
@@ -78,6 +98,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const endGame = (winner: number) => {
+    //Stop the soundtrack
+    stop();
+    
     setInGameState(gameStates.END_GAME);
     setWinnerState(winner);
   };
@@ -127,6 +150,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   };
 
   const selectNewElement = () => {
+    playElementSound();
+
     // Crear un array con los elementos del juego y seleccionar un elemento aleatorio
     for (let i = 0; i < 10; i++) {
       setTimeout(() => {
@@ -189,7 +214,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     return new Promise<void>((resolve) => {
 
       setInCombat(true);
-
+      playCombatSound();
       playerTookDamage(player, damage);
   
       setTimeout(() => {
@@ -231,15 +256,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (player1.cardsInField.length < 9){
         player1.cardsInField.push(card1);
         setPlayer1({ ...player1});
+        playCardSound();
       }
       if (player2.cardsInField.length < 9){
         player2.cardsInField.push(card2);
         setPlayer2({ ...player2});
+        playCardSound();
       }
     }
   }
 
   const selectCardToCombat = (player: number, cardIndex: number = 0) => {
+
+    playCardSound();
+
     if (player === 1) {
       const card = player1.cardsInField[cardIndex];
       if (card && player1.cardInCombat.length === 0) {
@@ -306,7 +336,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       player2,
       selectCardToCombat,
       startCombat,
-      inCombat
+      inCombat,
+      playButtonSound
     }}>
       {children}
     </GameContext.Provider>

@@ -31,10 +31,11 @@ export function CardInCombat({ attackTurn, cardToCombat }: CardInCombatProps) {
             <CardPoolSlot />
           )}
       </div>
-      {cardToCombat &&
-      attackTurn ? (<h1 className={styles.combatText}>{cardToCombat?.attack}</h1>)
-      : (<h1 className={styles.combatText}>{cardToCombat?.defense}</h1>)}
-      
+      {cardToCombat ? (
+      attackTurn ? (<h1 className={styles.combatText}>ATK: {cardToCombat?.attack}</h1>)
+      : (<h1 className={styles.combatText}>DFS: {cardToCombat?.defense}</h1>)
+      ) : (<h1 className={styles.combatText}></h1>)
+      }
     </div>
   )
 }

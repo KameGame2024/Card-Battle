@@ -10,9 +10,20 @@ export function EndGameModal() {
   const { 
     inGameState,
     winnerState,
-    resetGame
+    resetGame,
+    playButtonSound
   } = useContext<GameContextType>(GameContext);
   
+
+  const resetPress = () => {
+    playButtonSound()
+    resetGame()
+  }
+
+  const backToStorePress = () => {
+    playButtonSound()
+  }
+
   return (
     <div className={`${styles.modalBackground} ${inGameState !== gameStates.END_GAME && styles.hidden}`}>
       <div className={styles.modal}>
@@ -31,8 +42,8 @@ export function EndGameModal() {
         </>
       }
         <div className={styles.buttonsContainer}>
-          <button className={styles.modalBtn} onClick={resetGame}>Reiniciar</button>
-          <button className={styles.modalBtn}>Volver a tienda</button>
+          <button className={styles.modalBtn} onClick={resetPress}>Reiniciar</button>
+          <button className={styles.modalBtn} onClick={backToStorePress}>Volver a tienda</button>
         </div>
       </div>
     </div>

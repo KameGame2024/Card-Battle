@@ -8,8 +8,14 @@ export function InstructionsModal() {
 
   const { 
     inGameState,
-    startGame
+    startGame,
+    playButtonSound
   } = useContext<GameContextType>(GameContext);
+
+  const startPress = () => {
+    playButtonSound()
+    startGame()
+  }
 
   return (
     <div className={`${styles.modalBackground} ${inGameState !== gameStates.INSTRUCTIONS && styles.hidden}`}>
@@ -44,7 +50,7 @@ export function InstructionsModal() {
           <img src="/attributes_icons/WIND.svg" alt="" className={styles.modalIcon} />
         </div>
 
-        <button className={styles.modalBtn} onClick={startGame}>Estoy Listo</button>
+        <button className={styles.modalBtn} onClick={startPress}>Estoy Listo</button>
       </div>
     </div>
   )
