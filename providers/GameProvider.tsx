@@ -7,6 +7,8 @@ import { Player } from "../types/playersType";
 import { gameStates } from "../types/GameState";
 import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import { useSound } from 'use-sound';
 import CardSFX from '/audio/card.mp3';
 import ElementSFX from '/audio/element.mp3';
