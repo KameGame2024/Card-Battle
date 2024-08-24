@@ -24,7 +24,7 @@ export function InstructionsModal() {
         <p className={styles.modalContent}>
           1) La mecánica principal del juego son turnos de ataque y defensa, indicados por el ícono de espada o escudo.
           <br />
-          2) En cada turno se selecciona una carta para atacar o defender, cuando estes seguro de la carta que seleccionaste
+          2) En cada turno se selecciona una carta para atacar o defender (cartas distintas a monstruos no atacan pero bloquean todo el daño si la carta del enemigo no coincide con el elemento del turno), cuando estes seguro de la carta que seleccionaste
           presiona el botón de "Combatir" para confirmar tu selección y pasar al combate.
           <br />
           3) En el combate se comparan las cartas seleccionadas por ambos jugadores, la carta que está atacando compara su valor de ataque
@@ -41,13 +41,13 @@ export function InstructionsModal() {
           Cada turno se elegirá un elemento aleatorio, si la carta que ataca tiene el elemento que se eligió, su ataque se duplica. Usa esto a tu favor para ganar ventaja en el combate. Los elementos son:
         </p>
         <div className={styles.modalIcons}>
-          <img src="/attributes_icons/DARK.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/DIVINE.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/EARTH.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/FIRE.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/LIGHT.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/WATER.svg" alt="" className={styles.modalIcon} />
-          <img src="/attributes_icons/WIND.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Oscuridad.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Divino.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Tierra.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Fuego.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Luz.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Agua.svg" alt="" className={styles.modalIcon} />
+          <img src="/attributes_icons/Viento.svg" alt="" className={styles.modalIcon} />
         </div>
 
         <button className={styles.modalBtn} onClick={startPress}>Estoy Listo</button>
