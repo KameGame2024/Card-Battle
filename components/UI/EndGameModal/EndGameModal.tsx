@@ -22,6 +22,7 @@ export function EndGameModal() {
 
   const backToStorePress = () => {
     playButtonSound()
+    window.location.href = 'https://kamegame.vercel.app/'
   }
 
   return (
