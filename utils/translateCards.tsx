@@ -26,13 +26,13 @@ function getCardCategory(tipo: string): string {
 export function translateCardObject(originalCard: originalCardType) : Card {
   // Mapeo de atributos a elementos, ajusta esto según corresponda
   const attributeToElementMap: { [key: string]: string } = {
-    Agua: cardElement.WATER,
-    Fuego: cardElement.FIRE,
-    Viento: cardElement.WIND,
-    Luz: cardElement.LIGHT,
-    Oscuridad: cardElement.DARK,
-    Divino: cardElement.DIVINE,
-    Tierra: cardElement.EARTH // Asumiendo que "Tierra" es el equivalente a EARTH en tu enumeración
+    WATER: cardElement.WATER,
+    FIRE: cardElement.FIRE,
+    WIND: cardElement.WIND,
+    LIGHT: cardElement.LIGHT,
+    DARK: cardElement.DARK,
+    DIVINE: cardElement.DIVINE,
+    EARTH: cardElement.EARTH // Asumiendo que "Tierra" es el equivalente a EARTH en tu enumeración
   };
 
   
@@ -43,6 +43,6 @@ export function translateCardObject(originalCard: originalCardType) : Card {
     attack: originalCard.ataque,
     defense: originalCard.defensa,
     element: attributeToElementMap[originalCard.atributo] || 'Unknown', // Usa 'Unknown' o cualquier otro valor predeterminado si el atributo no coincide
-    category: getCardCategory(originalCard.descripcion)// Usa 'Unknown' o cualquier otro valor predeterminado si el tipo no coincide
+    category: getCardCategory(originalCard.tipo)// Usa 'Unknown' o cualquier otro valor predeterminado si el tipo no coincide
   };
 }

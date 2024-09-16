@@ -94,7 +94,6 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const startGame = async () => {
     // Usar el hook useFetchCards para obtener las cartas de la API si no se ha hecho
-    console.log(cardsPlayer1.length);
     if (cardsPlayer1.length === 0 || cardsPlayer2.length === 0){
       FetchCards().then(({ cards1, cards2 }) => {
         
