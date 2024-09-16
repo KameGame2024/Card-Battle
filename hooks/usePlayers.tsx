@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Player } from "../types/playersType";
-import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
 
 export function usePlayer() {
   const [player1, setPlayer1] = useState<Player>({
     name: "Player 1",
     healthPoints: 100,
     image: "",
-    cardsInDeck: cardsPlayer1,
+    cardsInDeck: [],
     cardsInField: [],
     cardInCombat: []
   });
@@ -16,7 +15,7 @@ export function usePlayer() {
     name: "Player 2",
     healthPoints: 100,
     image: "",
-    cardsInDeck: cardsPlayer2,
+    cardsInDeck: [],
     cardsInField: [],
     cardInCombat: []
   });
@@ -65,26 +64,6 @@ export function usePlayer() {
     }
   }
 
-  const resetPlayers = () => {
-    setPlayer1({
-      name: "Player 1",
-      healthPoints: 100,
-      image: "",
-      cardsInDeck: cardsPlayer1,
-      cardsInField: [],
-      cardInCombat: []
-    });
-
-    setPlayer2({
-      name: "Player 2",
-      healthPoints: 100,
-      image: "",
-      cardsInDeck: cardsPlayer2,
-      cardsInField: [],
-      cardInCombat: []
-    });
-  }
-
   const playersState = {
     player1,
     player2
@@ -94,7 +73,6 @@ export function usePlayer() {
     playerTookDamage,
     playersDrawCard,
     selectCardToCombat,
-    resetPlayers
   }
 
   return { playersState, playersActions };

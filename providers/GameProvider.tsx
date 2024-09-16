@@ -2,11 +2,10 @@ import { createContext, useState } from "react";
 // import { usePlayer } from '../hooks/usePlayers';
 import React from 'react';
 import { GameContextType } from "../types/GameContextType";
-import { cardCategory, cardElement, originalCardType } from '../types/cardType';
+import { cardCategory, cardElement, Card } from '../types/cardType';
 import { Player } from "../types/playersType";
 import { gameStates } from "../types/GameState";
-import { cardsPlayer1, cardsPlayer2 } from "../store/cardsStore";
-import { translateCardObject } from "../utils/translateCards";
+import { FetchCards } from "../utils/fetchCards";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
@@ -49,7 +48,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     name: "Player 1",
     healthPoints: 10000,
     image: "",
-    cardsInDeck: [...cardsPlayer1],
+    cardsInDeck: [],
     cardsInField: [],
     cardInCombat: []
   });
@@ -58,10 +57,13 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     name: "Player 2",
     healthPoints: 10000,
     image: "",
-    cardsInDeck: [...cardsPlayer2],
+    cardsInDeck: [],
     cardsInField: [],
     cardInCombat: []
   });
+
+  const [cardsPlayer1, setCardsPlayer1] = useState<Card[]>([]);
+  const [cardsPlayer2, setCardsPlayer2] = useState<Card[]>([]);
 
   const [inGameState, setInGameState] = useState<string>(gameStates.INSTRUCTIONS);
   const [roundState, setRoundState] = useState<number>(0);
@@ -91,48 +93,60 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [playLoseSound] = useSound(LoseSFX, { volume: 0.25 });
 
   const startGame = async () => {
-    try {
-      // Obtener datos de la API
-      const response = await fetch('https://my-json-server.typicode.com/hinarasm12/ApiCard/cartas');
-      const data = await response.json();
+    // Usar el hook useFetchCards para obtener las cartas de la API si no se ha hecho
+    console.log(cardsPlayer1.length);
+    if (cardsPlayer1.length === 0 || cardsPlayer2.length === 0){
+      FetchCards().then(({ cards1, cards2 }) => {
+        
+        setCardsPlayer1([...cards1]);
+        setCardsPlayer2([...cards2]);
 
-      let translatedCards = data.map((card : originalCardType) => translateCardObject(card));
+        player1.cardsInDeck = [...cards1];
 
-      if (translatedCards.length < 18){
-        translatedCards = [...cardsPlayer1];
-      }
+        player2.cardsInDeck = [...cards2];
+    
+        setPlayer1({ ...player1 });
+        setPlayer2({ ...player2 });
 
-      player1.cardsInDeck = [...translatedCards];
-      setPlayer1({ ...player1 });
+        // Luego de obtener los datos de la API, inicia el juego
+        setInGameState(gameStates.IN_GAME);
+        setRoundState(1);
+        setPlayerTurnState(0);
+        shuffleDecks();
+        playTrack();
+
+        for (let i = 0; i < 9; i++) {
+          setTimeout(() => {
+            playersDrawCard();
+          }, 250 * (i+1));
+        }
+
+        selectNewElement();
+      });
+    } else{
+
+      player1.cardsInDeck = [...cardsPlayer1];
+
+      console.log(cardsPlayer1);
+
+      player2.cardsInDeck = [...cardsPlayer2];
   
+      setPlayer1({ ...player1 });
+      setPlayer2({ ...player2 });
+
       // Luego de obtener los datos de la API, inicia el juego
       setInGameState(gameStates.IN_GAME);
       setRoundState(1);
       setPlayerTurnState(0);
       shuffleDecks();
       playTrack();
-  
+
       for (let i = 0; i < 9; i++) {
         setTimeout(() => {
           playersDrawCard();
         }, 250 * (i+1));
       }
-  
-      selectNewElement();
-    } catch (error) {
-      // En caso de error, inicia el juego con las cartas predeterminadas
-      setInGameState(gameStates.IN_GAME);
-      setRoundState(1);
-      setPlayerTurnState(0);
-      shuffleDecks();
-      playTrack();
-  
-      for (let i = 0; i < 9; i++) {
-        setTimeout(() => {
-          playersDrawCard();
-        }, 250 * (i+1));
-      }
-  
+
       selectNewElement();
     }
   };
@@ -362,7 +376,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       name: "Player 1",
       healthPoints: 10000,
       image: "",
-      cardsInDeck: [...cardsPlayer1],
+      cardsInDeck: [],
       cardsInField: [],
       cardInCombat: []
     });
@@ -371,7 +385,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       name: "Player 2",
       healthPoints: 10000,
       image: "",
-      cardsInDeck: [...cardsPlayer2],
+      cardsInDeck: [],
       cardsInField: [],
       cardInCombat: []
     });
