@@ -39,7 +39,7 @@ export const FetchCards = async(user_id:number) => {
     let translatedCards1 = fetchedCards.map((card : originalCardType) => translateCardObject(card));
     const translatedCards2 = defaultCardsPlayer2.map((card : originalCardType) => translateCardObject(card));
 
-    if (translatedCards1.length < 18){
+    if (translatedCards1.length !== 18){
       translatedCards1 = defaultCardsPlayer1.map((card : originalCardType) => translateCardObject(card));
     }
     
