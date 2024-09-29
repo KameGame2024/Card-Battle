@@ -4,7 +4,11 @@ import { GameContextType } from '../../../types/GameContextType';
 import styles from './instructionsModal.module.css'
 import { gameStates } from '../../../types/GameState';
 
+import { useParams } from 'react-router-dom';
+
 export function InstructionsModal() {
+
+  const { user_id } = useParams();
 
   const { 
     inGameState,
@@ -14,7 +18,10 @@ export function InstructionsModal() {
 
   const startPress = () => {
     playButtonSound()
-    startGame()
+    if(user_id)
+      startGame(parseInt(user_id));
+    else
+      startGame(0);
   }
 
   return (

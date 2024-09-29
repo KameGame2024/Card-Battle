@@ -92,10 +92,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
   const [playLoseSound] = useSound(LoseSFX, { volume: 0.25 });
 
-  const startGame = async () => {
+  const startGame = async (user_id: number) => {
+
     // Usar el hook useFetchCards para obtener las cartas de la API si no se ha hecho
     if (cardsPlayer1.length === 0 || cardsPlayer2.length === 0){
-      FetchCards().then(({ cards1, cards2 }) => {
+      FetchCards(user_id).then(({ cards1, cards2 }) => {
         
         setCardsPlayer1([...cards1]);
         setCardsPlayer2([...cards2]);

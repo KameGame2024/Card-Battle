@@ -1,18 +1,42 @@
 import { defaultCardsPlayer1, defaultCardsPlayer2 } from "../store/cardsStore";
-import { originalCardType, Card } from "../types/cardType";
+import { originalCardType, Card, cardFetchResponseType } from "../types/cardType";
 import { translateCardObject } from "../utils/translateCards";
 
-export const FetchCards = async() => {
+export const FetchCards = async(user_id:number) => {
   let cards1: Card[]  = []
   let cards2: Card[]  = []
-  
+
+  const fetchedCards: originalCardType[] = []
+
+  const url = `http://localhost:3000/usuarios/${user_id}/cartas_baraja`;
 
   // Obtener datos de la API
   try {
-    const response = await fetch('https://my-json-server.typicode.com/hinarasm12/ApiCard/cartas');
+    // Cambiar la URL por la de la API de andrés
+    const response = await fetch(url);
     const data = await response.json();
 
-    let translatedCards1 = data.map((card : originalCardType) => translateCardObject(card));
+    // Mapear las cartas que vienen con cantidad a un arreglo de cartas
+    data.forEach((card : cardFetchResponseType) => {
+
+      for (let i = 0; i < card.cantidadBaraja; i++) {
+        const newCard = {
+          id: card.id,
+          imagen: card.imagen,
+          nombre: card.nombre,
+          descripcion: card.descripcion,
+          ataque: card.ataque,
+          defensa: card.defensa,
+          precio: card.precio,
+          tipo: card.tipo,
+          atributo: card.atributo
+        }
+
+        fetchedCards.push(newCard);
+      }
+    });
+
+    let translatedCards1 = fetchedCards.map((card : originalCardType) => translateCardObject(card));
     const translatedCards2 = defaultCardsPlayer2.map((card : originalCardType) => translateCardObject(card));
 
     if (translatedCards1.length < 18){

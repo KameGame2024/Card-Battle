@@ -35,3 +35,17 @@ export type originalCardType = {
   tipo:        string;
   atributo:    string;
 }
+
+export type cardFetchResponseType = {
+  id:          string;
+  imagen:      string;
+  nombre:      string;
+  descripcion: string;
+  ataque:      number;
+  defensa:     number;
+  precio:      number;
+  tipo:        string;
+  atributo:    string;
+  cantidad:    number;
+  cantidadBaraja:    number;
+}
