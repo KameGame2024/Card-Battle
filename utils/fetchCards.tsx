@@ -8,7 +8,7 @@ export const FetchCards = async(user_id:number) => {
 
   const fetchedCards: originalCardType[] = []
 
-  const base_url = import.meta.env.VITE_APP_API_URL;
+  const base_url = import.meta.env.VITE_APP_API_DECK_URL;
 
   const url = `${base_url}/${user_id}/cartas_baraja`;
 
