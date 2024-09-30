@@ -8,18 +8,19 @@ export const FetchCards = async(user_id:number) => {
 
   const fetchedCards: originalCardType[] = []
 
-  const url = `http://localhost:3000/usuarios/${user_id}/cartas_baraja`;
+  const base_url = import.meta.env.VITE_APP_API_URL;
+
+  const url = `${base_url}/${user_id}/cartas_baraja`;
 
   // Obtener datos de la API
   try {
     // Cambiar la URL por la de la API de andrés
     const response = await fetch(url);
     const data = await response.json();
-
     // Mapear las cartas que vienen con cantidad a un arreglo de cartas
     data.forEach((card : cardFetchResponseType) => {
 
-      for (let i = 0; i < card.cantidadBaraja; i++) {
+      for (let i = 0; i < card.cantidad; i++) {
         const newCard = {
           id: card.id,
           imagen: card.imagen,
@@ -33,6 +34,7 @@ export const FetchCards = async(user_id:number) => {
         }
 
         fetchedCards.push(newCard);
+        
       }
     });
 
