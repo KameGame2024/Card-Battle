@@ -1,12 +1,13 @@
 import { GameProvider } from '../providers/GameProvider';
-import { GameManager } from '../components';
+
+import { AppRoutes } from '../routes';
 
 function App() {
 
   return (
     <>
     <GameProvider>
-      <GameManager />
+      <AppRoutes />
     </GameProvider>
     </>
   )
