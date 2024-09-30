@@ -5,9 +5,8 @@ export function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<GameManager />}>
-          <Route path="arena/:user_id" element={<GameManager />} />
-        </Route>
+        <Route path="arena/:user_id" element={<GameManager />}></Route>
+        <Route path="*" element={<GameManager />}></Route>
       </Routes>
     </BrowserRouter>
   );
