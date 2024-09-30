@@ -6,7 +6,7 @@ export function AppRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<GameManager />}>
-          <Route path=":user_id" element={<GameManager />} />
+          <Route path="arena/:user_id" element={<GameManager />} />
         </Route>
       </Routes>
     </BrowserRouter>
