@@ -17,7 +17,6 @@ export const FetchCards = async(user_id:number) => {
     // Cambiar la URL por la de la API de andrés
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     // Mapear las cartas que vienen con cantidad a un arreglo de cartas
     data.forEach((card : cardFetchResponseType) => {
 
